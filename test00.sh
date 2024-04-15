@@ -2,7 +2,7 @@
 
 echo "Test 0: p command, -n option"
 
-input=$(seq 1 30)
+input=$(seq 1 100)
 patterns=(
     "p"
     "5p"
@@ -27,7 +27,7 @@ patterns=(
 
 for pattern in "${patterns[@]}";
 do
-    eddy_output=$(echo "$input" | python3 ./eddy.py -n --patterns "$pattern")
+    eddy_output=$(echo "$input" | python3 ./eddy.py -n "$pattern")
     if [ $? -ne 0 ];
     then
         echo "Command failed"

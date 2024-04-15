@@ -32,7 +32,7 @@ run()
     compare "$eddy_output" "$sed_output"
 }
 
-input=$(seq 1 30)
+input=$(seq 1 100)
 
 echo 4q > commands.eddy
 echo /2/d >> commands.eddy

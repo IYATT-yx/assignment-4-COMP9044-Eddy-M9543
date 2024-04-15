@@ -2,13 +2,14 @@
 
 echo "Test 8: whitespace can appear before and/or after commands and addresses. '#' can be used as a comment character."
 
-input=$(seq 1 30)
+input=$(seq 1 100)
 patterns1=(
     " 3, 17  d  # comment"
     "/2/d # delete  ;  4  q # quit"
     "s/4/#7#/"
     "s/4/#7#/ # substitute"
-
+    "  /1$/  ,   /^2/    d # comment"
+    "/2/    d # comment;# comment;4    q"
 )
 
 patterns2=(
@@ -17,23 +18,24 @@ patterns2=(
       4  q # quit"
     "s/4/#7#/"
     "s/4/#7#/ # substitute"
+    "  /1$/  ,   /^2/    d # comment"
+    "/2/    d # comment
+    # comment
+    4    q"
 )
 
-
-length=${#patterns1[@]}
-
-for ((i=0; i<length; ++i))
+for ((i=0; i<${#patterns1[@]}; ++i))
 do
-    eddy_output=$(echo "$input" | python3 ./eddy.py --patterns "${patterns1[i]}")
+    eddy_output=$(echo "$input" | python3 ./eddy.py "${patterns1[$i]}")
     if [ $? -ne 0 ];
     then
         echo "Command failed"
         exit 1
     fi
 
-    sed_output=$(echo "$input" | sed -E "${patterns2[i]}")
+    sed_output=$(echo "$input" | sed -E "${patterns2[$i]}")
 
-    echo "${patterns1[i]}"
+    echo "${patterns1[$i]}"
     if [ "$eddy_output" = "$sed_output" ];
     then
         echo "Match: Yes"

@@ -2,7 +2,7 @@
 
 echo "Test 4: s command: any non-whitespace character may be used to delimit a substitute command."
 
-input=$(seq 1 30)
+input=$(seq 1 100)
 patterns=(
     "sX2Xt/oX"
     "s.2.two.g"
@@ -29,7 +29,7 @@ patterns=(
 
 for pattern in "${patterns[@]}";
 do
-    eddy_output=$(echo "$input" | python3 ./eddy.py --patterns "$pattern")
+    eddy_output=$(echo "$input" | python3 ./eddy.py "$pattern")
     if [ $? -ne 0 ];
     then
         echo "Command failed"
